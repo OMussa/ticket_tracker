@@ -1,13 +1,12 @@
-const e = require("express")
-const { json } = require("express")
-
 document.getElementById('issueInputForm').addEventListener('submit',saveIssue)
 
-function fetchIssues () {
+function fetchIssues() {
     let issues = JSON.parse(localStorage.getItem('issues'))
     let issuesList = document.getElementById('issuesList')
+    console.log(issues)
 
-    issuesList.innerHTML = ''
+    issuesList.innerHTML = '';
+
      for(let i = 0; i < issues.length; i++){
         let id = issues[i].id
         let subject = issues[i].subject
@@ -17,7 +16,13 @@ function fetchIssues () {
         let status = issues[i].status
         let statusColor = status == 'Closed' ? 'label-success' : 'label-info'
 
-        //issuesList.innerHTML =+ 
+        issuesList.innerHTML += 
+        '<div class ="well">' +
+        '<h6>Issue ID: ' + id + '</h6>' + 
+        '<p><span class = "label ' + statusColor + ' ">' + status + '</span></p>' + 
+        '<h3>' + subject + '</h3>' +
+        '<p>' + description + '</p>'
+        + '</div>'
      }
 }
 
@@ -28,6 +33,7 @@ function saveIssue(e) {
     let issueSeverity = document.getElementById('issueSeverityInput').value
     let issueAssignedTo = document.getElementById('issueAssignedToInput').value
     let issueStatus = 'Open'
+
     let issue = {
         id : issueId,
         subject : issueSubject,
@@ -44,7 +50,7 @@ function saveIssue(e) {
         localStorage.setItem('issues', JSON.stringify(issues))
 
     }else {
-        let issues = json.parse(localStorage.getItem('issues'))
+        let issues = JSON.parse(localStorage.getItem('issues'))
         issues.push(issue)
         localStorage.setItem('issues', JSON.stringify(issues))
     }
